@@ -1,0 +1,30 @@
+
+
+body {
+  min-height: 100vh;
+  min-width: 100%;
+  background:url('./images/clock.jpeg') center no-repeat;
+  background-size: cover;
+  margin: 0;
+  margin-top: 50px;
+  padding: 0;
+  font-family: 'Ubuntu', sans-serif;
+  color: #86f8b9;
+}
+.timesheet-head{
+  text-align: center;
+  
+}
+.link-basic{
+  color: #ededee;
+
+}
+.link-basic:hover{
+  color: #bdbdc0;
+}
+.icon-label{
+  color: #86f8b9;
+  text-decoration: none;
+}
+
+
