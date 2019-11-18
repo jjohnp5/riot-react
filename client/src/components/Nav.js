@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logoutUser} from '../actions/authUser'
 
 class Nav extends Component {
     
@@ -28,4 +27,4 @@ class Nav extends Component {
 }
 
 
-export default connect((store)=>({authUser: store.authUser}))(Nav)
+export default connect()(Nav)

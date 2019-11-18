@@ -1,10 +1,7 @@
 import React from "react";
-import {Link} from 'react-router-dom'
 import { connect } from 'react-redux';
-import Nav from './Nav'
-import profilepic from "../images/profilepic.png";
-import timesheet from "../images/timesheet.png";
-import manager from '../images/manager.png'
+import { Button, Form, FormGroup, Input, Container } from 'reactstrap';
+import axios from 'axios';
 
 
 
@@ -12,51 +9,57 @@ class Home extends React.Component {
     componentDidMount(){
         this.props.history.push('/');
     }
+    state = {
+        summonerName: '',
+        summonerData: {},
+        summonerMatches: []
+      }
+  
+      handleInputChange = event => {
+        const { name, value } = event.target;
+      
+          // Set the state for the appropriate input field
+          this.setState({
+            [name]: value
+          });
+  
+      }
+        handleFormSubmit = event => {
+          event.preventDefault();
+          axios.get('api/summoner/'+this.state.summonerName, {
+            headers: {"Content-Type" : "application/json"}
+        })
+            .then(data => {
+                this.setState({summonerData: data.data})
+                axios.get('api/matches/'+data.data.accountId)
+                .then(dd=> {
+                    this.setState({summonerMatches : dd.data})
+                })
+            })
+          
+          
+        };
 
 
     render() {
         return (
             
-                <div className="row d-flex justify-content-center text-center text-white">
-                    <div className="col-12">
-                    <Nav />
-                        <div className="row d-flex justify-content-center text-center text-white">
-
-                            <div className="col-12 mt-2 text-white">
-                            <h5 className="icon-label"> Punch 
-                                <Link to="/punch">
-                                    
-                                    <img alt="punch" className="img-responsive center-block mb-5 d-block mx-auto" src={profilepic} width="100" />
-                                </Link>
-                                </h5>
-
-                            </div>
-                        </div>
-                            <div className="row d-flex justify-content-center text-center text-white">
-
-                                <div className="col-md-4 mt-2 text-white">
-                                <h5 className="icon-label"> {this.props.user.id ? "My Timesheet" : "Employee Login" }
-                                    <Link to="/employee/login">
-                                        
-                                        <img alt="employee login" className="img-responsive center-block mb-5 d-block mx-auto" src={timesheet} width="100" />
-                                    </Link>
-                                    </h5>
-
-                                </div>
-
-                                    <div className="col-md-4 mt-2 text-lg">
-                                    <h5 className="icon-label">{this.props.user.position >= 2 ? "Manager Portal" : "Manager Login" }
-                                        <Link to="/manager/login">
-                                            
-                                            <img alt="manager login" className="img-responsive center-block mb-5 d-block mx-auto" src={manager} width="100" />
-                                        </Link>
-                                        </h5>
-                                    </div>
-                            </div>
-                    </div>
-
-
-                </div>
+                <Container>
+                    <FormGroup>
+                    <Form className="summoner-search-box col-md-4 offset-4">
+                    <Input
+                        type='text'
+                        name='summonerName'
+                        id='summoner'
+                        placeholder="Please enter summoner name" 
+                        onChange={this.handleInputChange}
+                        />
+                        <Button type="submit" color="success" onClick={this.handleFormSubmit} className="offset-4 justify-content-center">
+                        Search
+                        </Button>
+                    </Form>
+                    </FormGroup>
+                </Container>
                         )
                     }
                 
@@ -65,4 +68,4 @@ class Home extends React.Component {
                 }
                 
                 
-export default connect((store)=>({user:store.authUser}))(Home)
+export default connect()(Home);
