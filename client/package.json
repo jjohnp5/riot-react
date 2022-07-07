@@ -7,7 +7,7 @@
   "dependencies": {
     "axios": "^0.18.1",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux-loading-bar": "^4.0.5",
